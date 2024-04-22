@@ -1,0 +1,15 @@
+# Use an existing Docker image as a base
+FROM node:16-alpine
+
+# WSL fixes for docker x node
+USER node
+ 
+RUN mkdir -p /home/node/app
+WORKDIR /home/node/app
+ 
+COPY --chown=node:node ./package.json ./
+RUN npm install
+COPY --chown=node:node ./ ./
+
+# Tell the image what to do when it starts as a container
+CMD ["npm", "start"]
